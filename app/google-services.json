@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "31569458523",
+    "project_id": "lonedree-d595f",
+    "storage_bucket": "lonedree-d595f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31569458523:android:b9f9c5113ee9ebbcadd67e",
+        "android_client_info": {
+          "package_name": "com.mikesamdi.lonedree"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDen_Q8RQzMEZd6N3-vE1XUtKEtrFEDB8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
