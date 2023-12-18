@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,12 +25,16 @@ import com.mikesamdi.lonedree.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView rv;
+    RecyclerView vegetableRV;
     ArrayList<GroceryItem> dataSource;
     LinearLayoutManager linearLayoutManager;
     MyRvAdapter myRvAdapter;
     // After setContentView
 
     ActivityMainBinding binding;
+
+    private VegetableAdapter adapter;
+    private List<VegetableItem> vegetableItemList;
 
 
     @Override
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
         FirebaseApp.initializeApp(this);
         rv = findViewById(R.id.groceryContainerRV);
+        vegetableRV =  findViewById(R.id.allVegetablesRVMainActivity);
 
 
         // Setting the data source
@@ -91,7 +98,16 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle any errors
             }
+
+
         });
+
+        vegetableRV.setLayoutManager(new LinearLayoutManager(this));
+        vegetableItemList = new ArrayList<>();
+        adapter = new VegetableAdapter(vegetableItemList);
+        vegetableRV.setAdapter(adapter);
+        DatabaseReference vegetablesDatabase = FirebaseDatabase.getInstance().getReference().child("allVegetables");
+        fetchData(vegetablesDatabase);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -100,5 +116,38 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+
+    //fetchVegetable
+
+    private void fetchData(DatabaseReference vegetablesDatabase) {
+        // Fetch data from Firebase Realtime Database for vegetables
+        vegetablesDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                vegetableItemList.clear(); // Clear existing data
+
+                // Loop through dataSnapshot to retrieve each VegetableItem
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Retrieve data and create VegetableItem objects
+                    String name = snapshot.child("title").getValue(String.class);
+                    String life = snapshot.child("life").getValue(String.class);
+                    double price = snapshot.child("price").getValue(Double.class);
+                    String imageURL = snapshot.child("imageURL").getValue(String.class);
+
+                    // Create VegetableItem object and add to vegetableItemList
+                    vegetableItemList.add(new VegetableItem(name, life, price, imageURL));
+                }
+
+                // Notify the adapter about the data change
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle potential errors here
+            }
+        });
+    }
+
 
 }
