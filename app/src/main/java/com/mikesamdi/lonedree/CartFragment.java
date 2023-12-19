@@ -1,9 +1,11 @@
-package com.mikesamdi.lonedree;// Inside CartFragment.java
+package com.mikesamdi.lonedree;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,14 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mikesamdi.lonedree.CartItem;
-import com.mikesamdi.lonedree.CartItemAdapter;
-import com.mikesamdi.lonedree.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-// ...
 
 public class CartFragment extends Fragment {
 
@@ -30,6 +27,9 @@ public class CartFragment extends Fragment {
     private CartItemAdapter cartItemAdapter;
     private List<CartItem> cartItemList;
     private DatabaseReference databaseReference;
+    private TextView totalPriceTextView;
+    private double totalPrice = 0.0;
+    private Button buyButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +43,28 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        recyclerView = view.findViewById(R.id.cartRV); // Replace with your RecyclerView ID
+        buyButton = view.findViewById(R.id.cartBuyButton);
+        Button clearCartButton = view.findViewById(R.id.clearCartButton);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveCartItemsToHistory();
+            }
+        });
+
+        clearCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCartInFirebase();
+            }
+        });
+
+        recyclerView = view.findViewById(R.id.cartRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         cartItemList = new ArrayList<>();
         cartItemAdapter = new CartItemAdapter(cartItemList);
         recyclerView.setAdapter(cartItemAdapter);
+        totalPriceTextView = view.findViewById(R.id.totalPriceCart);
 
         // Fetch data from Firebase
         fetchCartItems();
@@ -60,6 +77,8 @@ public class CartFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cartItemList.clear();
+                totalPrice = 0.0; // Reset total price before recalculating
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     int count = snapshot.child("count").getValue(Integer.class);
                     String imageURL = snapshot.child("imageURL").getValue(String.class);
@@ -69,8 +88,12 @@ public class CartFragment extends Fragment {
 
                     CartItem cartItem = new CartItem(count, imageURL, life, price, title);
                     cartItemList.add(cartItem);
+                    totalPrice += price; // Accumulate the price of each item
                 }
                 cartItemAdapter.notifyDataSetChanged();
+
+                // Set the calculated total price to the TextView
+                totalPriceTextView.setText(String.format("Total: $%.2f", totalPrice));
             }
 
             @Override
@@ -78,5 +101,44 @@ public class CartFragment extends Fragment {
                 // Handle error
             }
         });
+    }
+
+    private void moveCartItemsToHistory() {
+        DatabaseReference historyItemsRef = FirebaseDatabase.getInstance().getReference("historyItems");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    int count = snapshot.child("count").getValue(Integer.class);
+                    String imageURL = snapshot.child("imageURL").getValue(String.class);
+                    String life = snapshot.child("life").getValue(String.class);
+                    double price = snapshot.child("price").getValue(Double.class);
+                    String title = snapshot.child("title").getValue(String.class);
+
+                    HistoryItem historyItem = new HistoryItem(title, imageURL, life, price, count);
+                    historyItemsRef.push().setValue(historyItem); // Add the item to historyItems
+                    snapshot.getRef().removeValue(); // Remove the item from cartItems
+                }
+                // After moving items, clear the local list and update UI
+                cartItemList.clear();
+                cartItemAdapter.notifyDataSetChanged();
+                totalPrice = 0.0;
+                totalPriceTextView.setText("Total: $0.00");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+    }
+
+    private void clearCartInFirebase() {
+        databaseReference.removeValue(); // Remove all items under "cartItems" reference
+        cartItemList.clear(); // Clear the local list as well
+        cartItemAdapter.notifyDataSetChanged();
+        totalPrice = 0.0; // Reset the total price
+        totalPriceTextView.setText("Total: $0.00"); // Update the total price display
     }
 }

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_corner"
-    android:padding="5dp">
+    android:layout_marginTop="10dp"
+    android:background="@drawable/rounded_corner">
 
     <ImageView
-        android:id="@+id/cartImageView"
+        android:id="@+id/historyImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,40 +16,40 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/cartItemName"
+        android:id="@+id/historyItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="itemName"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/cartImageView"
+        app:layout_constraintStart_toEndOf="@+id/historyImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cartItemCount"
+        android:id="@+id/historyItemCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginTop="8dp"
         android:text="ItemCount"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/cartItemName" />
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/historyItemName" />
 
     <TextView
-        android:id="@+id/cartItemLife"
+        android:id="@+id/historyItemLife"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="ItemLife"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/cartItemCount" />
+        app:layout_constraintStart_toEndOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/historyItemCount" />
 
     <TextView
-        android:id="@+id/cartItemPrice"
+        android:id="@+id/historyItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
@@ -60,23 +60,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Amount:"
-        app:layout_constraintStart_toEndOf="@+id/cartImageView"
-        app:layout_constraintTop_toBottomOf="@+id/cartItemName" />
+        app:layout_constraintStart_toEndOf="@+id/historyImageView"
+        app:layout_constraintTop_toBottomOf="@+id/historyItemName" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Storage Life:"
-        app:layout_constraintStart_toEndOf="@+id/cartImageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toEndOf="@+id/historyImageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

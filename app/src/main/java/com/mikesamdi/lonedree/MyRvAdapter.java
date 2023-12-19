@@ -40,7 +40,7 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyHolder> {
         GroceryItem currentItem = data.get(position);
         holder.groceryTitle.setText(currentItem.getTitle());
         holder.groceryLife.setText(currentItem.getLife());
-        holder.groceryPrice.setText(String.valueOf(currentItem.getPrice())); // Convert int to String
+        holder.groceryPrice.setText("$" + String.valueOf(currentItem.getPrice())); // Convert int to String
         Glide.with(holder.itemView.getContext())
                 .load(currentItem.getImageURL())
                 .into(holder.groceryImageView);
