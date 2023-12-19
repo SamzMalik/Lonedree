@@ -1,6 +1,8 @@
 package com.mikesamdi.lonedree;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -143,5 +147,26 @@ public class CartFragment extends Fragment {
         cartItemAdapter.notifyDataSetChanged();
         totalPrice = 0.0;
         totalPriceTextView.setText("Total: $0.00");
+    }
+
+    public static class IntroActivity extends AppCompatActivity {
+
+
+        LottieAnimationView lottie;
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_intro);
+
+            lottie = findViewById(R.id.lottie);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(i);
+                }
+            }, 5000);
+
+        }
     }
 }
