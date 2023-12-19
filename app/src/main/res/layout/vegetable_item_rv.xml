@@ -5,13 +5,15 @@
     android:id="@+id/vegetable_RVMainActivity"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_corner"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:background="@drawable/rounded_cornermike">
 
     <ImageView
         android:id="@+id/vegetableIVMainActivity"
         android:layout_width="111dp"
         android:layout_height="110dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -20,9 +22,11 @@
         android:id="@+id/vegetableNameMainActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:text="itemName"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/vegetableIVMainActivity"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,27 +34,64 @@
         android:id="@+id/vegetableLifeMainActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="itemLife"
-        app:layout_constraintStart_toEndOf="@+id/vegetableIVMainActivity"
+        android:textColor="#7A7A7A"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/vegetableNameMainActivity" />
 
     <TextView
         android:id="@+id/vegetable_priceMainActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
         android:text="itemPrice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/vegetableLifeMainActivity" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Lasted : "
+        android:textColor="#7A7A7A"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/vegetableIVMainActivity"
+        app:layout_constraintTop_toBottomOf="@+id/vegetableNameMainActivity" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Rp."
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/vegetableIVMainActivity"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="00,00"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/vegetable_priceMainActivity"
+        app:layout_constraintTop_toBottomOf="@+id/vegetableLifeMainActivity" />
 
     <Button
         android:id="@+id/decrementQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/primary"
         android:text="-"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,6 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/primary"
         android:text="+"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quantityTextView" />
@@ -82,12 +124,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/primary"
         android:text="Add to Cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/incrementQuantity"
-        app:layout_constraintTop_toBottomOf="@+id/vegetableLifeMainActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/vegetableIVMainActivity" />
 </androidx.constraintlayout.widget.ConstraintLayout>
