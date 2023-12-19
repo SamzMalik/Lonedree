@@ -8,7 +8,7 @@ public class HistoryItem {
     private int count;
 
     public HistoryItem() {
-        // Default constructor required for Firebase
+
     }
 
     public HistoryItem(String title, String imageURL, String life, double price, int count) {

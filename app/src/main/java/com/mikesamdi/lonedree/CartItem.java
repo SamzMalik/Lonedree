@@ -8,7 +8,7 @@ public class CartItem {
     private String title;
 
     public CartItem() {
-        // Default constructor required for Firebase
+
     }
 
     public CartItem(int count, String imageURL, String life, double price, String title) {

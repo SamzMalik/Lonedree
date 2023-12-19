@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,7 +37,7 @@ public class CartFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Initialize Firebase Database
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("cartItems"); // Replace with your Firebase reference
+        databaseReference = firebaseDatabase.getReference("cartItems");
     }
 
     @Override
@@ -49,7 +50,10 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 moveCartItemsToHistory();
+                Toast.makeText(requireContext(), "Successfully bought items", Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
         clearCartButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +81,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cartItemList.clear();
-                totalPrice = 0.0; // Reset total price before recalculating
+                totalPrice = 0.0;
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     int count = snapshot.child("count").getValue(Integer.class);
@@ -88,11 +92,10 @@ public class CartFragment extends Fragment {
 
                     CartItem cartItem = new CartItem(count, imageURL, life, price, title);
                     cartItemList.add(cartItem);
-                    totalPrice += price; // Accumulate the price of each item
+                    totalPrice += price;
                 }
                 cartItemAdapter.notifyDataSetChanged();
 
-                // Set the calculated total price to the TextView
                 totalPriceTextView.setText(String.format("Total: $%.2f", totalPrice));
             }
 
@@ -117,10 +120,10 @@ public class CartFragment extends Fragment {
                     String title = snapshot.child("title").getValue(String.class);
 
                     HistoryItem historyItem = new HistoryItem(title, imageURL, life, price, count);
-                    historyItemsRef.push().setValue(historyItem); // Add the item to historyItems
+                    historyItemsRef.push().setValue(historyItem);
                     snapshot.getRef().removeValue(); // Remove the item from cartItems
                 }
-                // After moving items, clear the local list and update UI
+
                 cartItemList.clear();
                 cartItemAdapter.notifyDataSetChanged();
                 totalPrice = 0.0;
@@ -135,10 +138,10 @@ public class CartFragment extends Fragment {
     }
 
     private void clearCartInFirebase() {
-        databaseReference.removeValue(); // Remove all items under "cartItems" reference
-        cartItemList.clear(); // Clear the local list as well
+        databaseReference.removeValue();
+        cartItemList.clear();
         cartItemAdapter.notifyDataSetChanged();
-        totalPrice = 0.0; // Reset the total price
-        totalPriceTextView.setText("Total: $0.00"); // Update the total price display
+        totalPrice = 0.0;
+        totalPriceTextView.setText("Total: $0.00");
     }
 }

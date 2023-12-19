@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<GroceryItem> dataSource;
     LinearLayoutManager linearLayoutManager;
     MyRvAdapter myRvAdapter;
-    // After setContentView
-
     ActivityMainBinding binding;
 
     private VegetableAdapter adapter;
@@ -46,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home) {
                 replaceFragment(new HomeFragment());
-                Log.d("BottomNav", "Home selected" + item.getItemId() + "==" + R.id.home);
+//                Log.d("BottomNav", "Home selected" + item.getItemId() + "==" + R.id.home);
                 return true;
             } else if (item.getItemId() == R.id.cart) {
-                Log.d("BottomNav", "Cart selected" + item.getItemId() + "==" + R.id.cart);
+//                Log.d("BottomNav", "Cart selected" + item.getItemId() + "==" + R.id.cart);
                 replaceFragment(new CartFragment());
                 return true;
             } else if (item.getItemId() == R.id.history) {
-                Log.d("BottomNav", "History selected" + item.getItemId() + "==" + R.id.history);
+//                Log.d("BottomNav", "History selected" + item.getItemId() + "==" + R.id.history);
                 replaceFragment(new HistoryFragment());
                 return true;
             }
@@ -62,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         rv = findViewById(R.id.groceryContainerRV);
         vegetableRV =  findViewById(R.id.allVegetablesRVMainActivity);
-
-
         // Setting the data source
         dataSource = new ArrayList<>();
         //dataSource.add(new GroceryItem("Banana", "10 Days", "$4.99", "https://food-ubc.b-cdn.net/wp-content/uploads/2020/02/Save-Money-On-Groceries_UBC-Food-Services.jpg"));
@@ -90,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                     dataSource.add(new GroceryItem(title, life, price, imageURL));
                 }
 
-                // Notify the adapter about the data change
                 myRvAdapter.notifyDataSetChanged();
             }
 
@@ -124,21 +119,20 @@ public class MainActivity extends AppCompatActivity {
         vegetablesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                vegetableItemList.clear(); // Clear existing data
+                vegetableItemList.clear();
 
-                // Loop through dataSnapshot to retrieve each VegetableItem
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Retrieve data and create VegetableItem objects
+
                     String name = snapshot.child("title").getValue(String.class);
                     String life = snapshot.child("life").getValue(String.class);
                     double price = snapshot.child("price").getValue(Double.class);
                     String imageURL = snapshot.child("imageURL").getValue(String.class);
 
-                    // Create VegetableItem object and add to vegetableItemList
+
                     vegetableItemList.add(new VegetableItem(name, life, price, imageURL));
                 }
 
-                // Notify the adapter about the data change
+
                 adapter.notifyDataSetChanged();
             }
 

@@ -32,7 +32,7 @@ public class HistoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Initialize Firebase Database
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("historyItems"); // Replace with your Firebase reference
+        databaseReference = firebaseDatabase.getReference("historyItems");
     }
 
     @Override

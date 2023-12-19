@@ -37,7 +37,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.itemCountTextView.setText(String.valueOf(cartItem.getCount()));
         Glide.with(holder.itemView.getContext())
                 .load(cartItem.getImageURL())
-                .into(holder.itemImageView); // Assuming you've named the ImageView as itemImageView
+                .into(holder.itemImageView);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     public static class CartItemViewHolder extends RecyclerView.ViewHolder {
         TextView itemNameTextView;
         TextView itemPriceTextView;
-        TextView itemLifeTextView; // TextView for item life
-        TextView itemCountTextView; // TextView for item count
+        TextView itemLifeTextView;
+        TextView itemCountTextView;
         ImageView itemImageView;
 
         // Add other TextViews or views for new fields
@@ -58,8 +58,8 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             super(itemView);
             itemNameTextView = itemView.findViewById(R.id.cartItemName);
             itemPriceTextView = itemView.findViewById(R.id.cartItemPrice);
-            itemLifeTextView = itemView.findViewById(R.id.cartItemLife); // Replace with your actual TextView ID
-            itemCountTextView = itemView.findViewById(R.id.cartItemCount); // Replace with your actual TextView ID
+            itemLifeTextView = itemView.findViewById(R.id.cartItemLife);
+            itemCountTextView = itemView.findViewById(R.id.cartItemCount);
             itemImageView = itemView.findViewById(R.id.cartImageView);
         }
     }

@@ -40,7 +40,7 @@ public class VegetableAdapter extends RecyclerView.Adapter<VegetableAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         VegetableItem item = vegetableItemList.get(position);
         holder.vegetableName.setText(item.getName());
-        holder.vegetableLife.setText(item.getLife());
+        holder.vegetableLife.setText("Storage life: " + item.getLife());
         holder.vegetablePrice.setText("$" + String.valueOf(item.getPrice()));
 
         Glide.with(holder.itemView.getContext())

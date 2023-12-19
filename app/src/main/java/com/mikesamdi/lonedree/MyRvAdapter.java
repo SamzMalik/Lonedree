@@ -39,8 +39,8 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyHolder> {
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         GroceryItem currentItem = data.get(position);
         holder.groceryTitle.setText(currentItem.getTitle());
-        holder.groceryLife.setText(currentItem.getLife());
-        holder.groceryPrice.setText("$" + String.valueOf(currentItem.getPrice())); // Convert int to String
+        holder.groceryLife.setText("Storage life: " + currentItem.getLife());
+        holder.groceryPrice.setText("$" + String.valueOf(currentItem.getPrice()));
         Glide.with(holder.itemView.getContext())
                 .load(currentItem.getImageURL())
                 .into(holder.groceryImageView);
@@ -66,11 +66,9 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyHolder> {
                             Toast.makeText(holder.itemView.getContext(), "Item count incremented", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        // Item does not exist in the cart, add it with count 1 and initial price
                         currentItem.setCount(1);
                         cartRef.push().setValue(currentItem);
 
-                        // Inform the user that the item has been added to the cart (Optional)
                         Toast.makeText(holder.itemView.getContext(), "Item added to cart", Toast.LENGTH_SHORT).show();
                     }
                 }
